@@ -10,4 +10,6 @@ class Person {
         })
     }
 }
+
+console.log("exp01");
 module.exports = Person;
