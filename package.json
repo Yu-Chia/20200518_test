@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "babel":"nodemon --exec babel-node src/http_server3.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/Yu-Chia/20200518_test/issues"
   },
-  "homepage": "https://github.com/Yu-Chia/20200518_test#readme"
+  "homepage": "https://github.com/Yu-Chia/20200518_test#readme",
+  "dependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.6"
+  }
 }
