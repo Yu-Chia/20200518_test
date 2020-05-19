@@ -1,8 +1,50 @@
 const express = require('express');
 const app = express();
 
+app.set('view engine', 'ejs');
+
+//Top-level Middleware
+app.use(express.urlencoded({extended: false}));
+
+app.use(express.json());
+
 app.get('/',function(req, res){
-    res.send("STARBURST STREAM!!!");
+    res.render('main', { name: 'Martin'});
+});
+
+app.get('/sales',function(req, res){
+    const sales = require(__dirname + '/../data/sales');
+    // res.json(data);
+    res.render('sales-json',{ sales })
+});
+
+
+//middleware;
+
+app.get('/try-post-form', (req, res)=>{
+    res.render('try-post-form');
+})
+
+app.post('/try-post-form', (req, res)=>{
+    res.render('try-post-form', req.body);
+})
+
+app.post('/try-json-post', (req, res)=>{
+    req.body.contentType = req.get("Content-Type");
+    res.json(req.body);
+})
+
+// app.get('/ok',(req, res)=>{
+//     console.log(express);
+//     res.send("ok");
+// })
+
+app.get('/try-qs',function(req, res){
+    res.json(req.query);
+})
+
+app.get('/pending',function(req, res){
+    
 });
 
 app.use(express.static('public'));
