@@ -7,6 +7,12 @@ app.get('/',function(req, res){
     res.render('main', { name: 'Martin'});
 });
 
+app.get('/sales',function(req, res){
+    const sales = require(__dirname + '/../data/sales');
+    // res.json(data);
+    res.render('sales-json',{ sales })
+});
+
 app.get('/pending',function(req, res){
     
 });
