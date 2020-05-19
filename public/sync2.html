@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick ="doAjax()">doAjax</button>
+    <!-- <div id="info"></div> -->
+    <button >doAjax</button>
+    <input type="text">
+
+
+    <script>
+        // info.innerHTML = "HELLO";
+        // alert("??");
+        function doAjax(){
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(event){
+                console.log(xhr.status, xhr.readyState)
+            }
+            xhr.open('GET', '/pending', true);
+            // xhr.open('GET', '/pending', false);
+            xhr.send();
+        }
+    </script>
+</body>
+
+</html>

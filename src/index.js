@@ -1,8 +1,14 @@
 const express = require('express');
 const app = express();
 
+app.set('view engine', 'ejs');
+
 app.get('/',function(req, res){
-    res.send("STARBURST STREAM!!!");
+    res.render('main', { name: 'Martin'});
+});
+
+app.get('/pending',function(req, res){
+    
 });
 
 app.use(express.static('public'));
