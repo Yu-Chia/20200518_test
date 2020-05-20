@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise01</title>
+</head>
+
+<body>
+    <div id="info">
+        <p>123</p>
+    </div>
+    <script>
+        function func() {
+            return new Promise((resolve, reject) => {
+                setTimeout(function () {
+                    resolve(Math.random()*100);
+                }, 500)
+            })
+        }
+        func()
+        .then(r=>{
+            info.innerHTML += `<p>${r}</p>`;
+            return func();
+        })
+        .then(r=>{
+            info.innerHTML += `<p>${r}</p>`;
+        })
+
+        const str = '{"a":123, "b":"Bike}';
+        let obj = {};
+        try {
+            obj = JSON.parse(str);
+        } catch(ex){
+            console.log("error: "+ ex);
+        }
+        console.log(obj);
+    </script>
+</body>
+
+</html>

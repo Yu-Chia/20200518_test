@@ -9,23 +9,24 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.get('/',function(req, res){
-    res.render('main', { name: 'Martin'});
+    res.render('main', { name: 'Martin', pageTitle: '首頁'});
 });
 
 app.get('/sales',function(req, res){
     const sales = require(__dirname + '/../data/sales');
     // res.json(data);
-    res.render('sales-json',{ sales })
+    res.render('sales-json',{ sales ,pageTitle: 'sales'})
 });
 
 
 //middleware;
 
 app.get('/try-post-form', (req, res)=>{
-    res.render('try-post-form');
+    res.render('try-post-form', {pageTitle: 'Try-post-form'});
 })
 
 app.post('/try-post-form', (req, res)=>{
+    res.locals.pageTitle = 'Try-post-form-posted';
     res.render('try-post-form', req.body);
 })
 
