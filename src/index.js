@@ -1,5 +1,9 @@
 const express = require('express');
+const multer = require('multer');
+const fs = require('fs');
 const app = express();
+const uploads = multer({dest: 'tmp_uploads/'})
+
 
 app.set('view engine', 'ejs');
 
@@ -18,8 +22,45 @@ app.get('/sales',function(req, res){
     res.render('sales-json',{ sales ,pageTitle: 'sales'})
 });
 
+app.get('/try-upload',(req, res)=>{
+    res.render('try-upload');
+})
 
-//middleware;
+app.post('/try-upload', uploads.single('avatar'), (req, res)=>{
+
+    const output = {
+        success : false,
+        uploadImg : "",
+        nickname : "",
+        error : ""
+    }
+
+    // console.log(req.body);
+    // console.log(req.file);
+    // res.send('ok');
+    if(req.file && req.file.originalname){
+        output.nickname = req.body.nickname;
+        switch(req.file.mimetype){
+            case 'image/jpeg':
+            case 'image/png':
+                fs.rename(req.file.path, './public/img/'+req.file.originalname, error=>{
+                    if(!error){
+                        output.success = true;
+                        output.uploadImg = '/img/'+req.file.originalname;
+                    }
+                    res.render('try-upload',output);
+                });
+                break;
+            default:
+                fs.unlink(req.file.path, error=>{
+                    output.error = "檔案類型錯誤";
+                    res.render('try-upload', output);
+                });
+        }
+    }
+
+    
+})
 
 app.get('/try-post-form', (req, res)=>{
     res.render('try-post-form', {pageTitle: 'Try-post-form'});
