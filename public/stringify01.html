@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stringify01</title>
+</head>
+
+<body>
+    <div id="info">
+    </div>
+    <script>
+        const p1 = {
+            name: "Bill",
+            age: 21
+        }
+
+        const p2 = {
+            name: "Cloud",
+            age: 22
+        }
+
+        const p3 = {
+            name: "Tifa",
+            age: 19
+        }
+
+        p1.next = p2;
+        p2.next = p3;
+        // p3.next = p1;
+
+        info.innerHTML = JSON.stringify(p1);
+    </script>
+</body>
+
+</html>
