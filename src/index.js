@@ -3,15 +3,33 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 // const uploads = multer({dest: 'tmp_uploads/'})
-const uploads = require(__dirname + '/upload-module')
+const session = require('express-session');
+const uploads = require(__dirname + '/upload-module');
+const moment = require('moment-timezone');
 
 
 app.set('view engine', 'ejs');
 
 //Top-level Middleware
 app.use(express.urlencoded({ extended: false }));
-
 app.use(express.json());
+app.use(session({
+    saveUninitialized: false,
+    resave: false,
+    secret: 'asvzsef3DSLl!AS./',
+    cookie:{
+        maxAge: 1200000
+    }
+}))
+app.use((req, res, next)=>{
+
+    res.locals.sess = req.session || {};
+    // res.locals.customData = {
+    //     name: 'Kirito',
+    //     skill: 'StarBurst Stream'
+    // };
+    next();
+});
 
 app.get('/', function (req, res) {
     res.render('main', { name: 'Martin', pageTitle: '首頁' });
@@ -71,15 +89,20 @@ app.post('/try-upload2', uploads.single('avatar'), (req, res)=>{
     })
 });
 
+// const func2 = (req, res)=>{
+//     res.json(req.params);
+// }
+
+
 app.get('/try-params1/*/*',(req,res)=>{
     res.json(req.params);
-})
+})//or func2
 
 app.get(/^\/mobile\/09\d{2}-?\d{3}-?\d{3}/,(req,res)=>{
     let url = req.url.slice(8).split("?")[0];
     url = url.split("-").join("");
     res.send(`Before: ${req.url} <br>After: ${url}`);
-})
+})//or func2
 
 app.get('/try-post-form', (req, res) => {
     res.render('try-post-form', { pageTitle: 'Try-post-form' });
@@ -107,6 +130,73 @@ app.get('/try-qs', function (req, res) {
 app.get('/pending', function (req, res) {
 
 });
+
+app.get('/try-session',(req, res)=>{
+    req.session.my_var = req.session.my_var || 0;
+    req.session.my_var++;
+    res.json({
+        my_var: req.session.my_var,
+        session: req.session
+    });
+    
+})
+app.get('/login',(req, res)=>{
+    res.render('login');
+})
+
+app.post('/login', uploads.none(),(req, res)=>{
+    const user = {
+        'Martin': {
+            password: '1234',
+            nickname: 'MT'
+        },
+        'Kirito': {
+            password: 'c8763',
+            nickname: 'BP'
+        }
+    }
+    
+    const output = {
+        success: false,
+        body: req.body
+    };
+    if(user[req.body.account] && user[req.body.account].password === req.body.password){
+        output.success = true;
+        req.session.user = {
+            user: req.body.account,
+            nickname: user[req.body.account].nickname
+        };
+        output.sess_user = req.session.user;
+    }
+    res.json(output);
+});
+
+app.get('/log-out',(req,res)=>{
+    delete req.session.user;
+    res.redirect('/login');
+});
+
+app.get('/try-moment',(req, res)=>{
+    const fm = 'YYYY-MM-DD HH:mm:ss';
+    const m1 = moment(new Date());
+    const m2 = moment(req.session.cookie.expires);
+    const m3 = moment("1996-06-14");
+
+    res.json({
+        m1: m1.format(fm),
+        m2: m2.format(fm),
+        m3: m3.format(fm),
+        m1a: m1.tz('Europe/London').format(fm),
+        m2a: m2.tz('Europe/London').format(fm),
+        m3a: m3.tz('Europe/London').format(fm),
+    })
+});
+
+app.use('/address-book',require(__dirname+'/address_book'));
+
+const admin2Router = require(__dirname+'/admins/admin2');
+app.use(admin2Router);
+app.use('/my',admin2Router);
 
 app.use(express.static('public'));
 
