@@ -1,0 +1,30 @@
+<%- include('../parts/html-head')%>
+<%- include('../parts/html-navbar')%>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <th>sid</th>
+            <th>name</th>
+            <th>email</th>
+            <th>mobile</th>
+            <th>birthday</th>
+            <th>address</th>
+        </thead>
+        <tbody>
+            <% for( let i of results){
+                // const fm = 
+                %>
+                <tr>
+                    <td><%= i.sid %></td>
+                    <td><%= i.name %></td>
+                    <td><%= i.email %></td>
+                    <td><%= i.mobile %></td>
+                    <td><%= i.birthday.toLocaleString() %></td>
+                    <td><%= i.address %></td>
+                </tr>
+            <% }%>
+        </tbody>
+    </table>
+</div>
+<%- include('../parts/script')%>
+<%- include('../parts/html-foot')%>
