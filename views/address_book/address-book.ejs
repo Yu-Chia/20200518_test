@@ -1,27 +1,48 @@
 <%- include('../parts/html-head')%>
 <%- include('../parts/html-navbar')%>
 <div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item <%= page === 1 ? 'disabled': ''%>">
+                        <a class="page-link" href="/address-book/list/<%= page-1 %>"><i class="fas fa-angle-left"></i></a>
+                    </li>
+                    <% for(let i=1; i <= totalPages; i++){%>
+                    <li class="page-item <%= i === page ? 'active': ''%>">
+                        <a class="page-link" href="/address-book/list/<%= i %>"><%= i %></a>
+                    </li>
+                    <% } %>
+                    <li class="page-item <%= totalPages === page ? 'disabled': ''%>">
+                        <a class="page-link" href="/address-book/list/<%= page+1 %>"><i class="fas fa-angle-right"></i></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <table class="table table-striped">
         <thead>
+            <th><i class="fas fa-trash-alt"></i></th>
             <th>sid</th>
             <th>name</th>
             <th>email</th>
             <th>mobile</th>
             <th>birthday</th>
             <th>address</th>
+            <th><i class="fas fa-edit"></i></th>
         </thead>
         <tbody>
-            <% for( let i of results){
-                // const fm = 
-                %>
-                <tr>
-                    <td><%= i.sid %></td>
-                    <td><%= i.name %></td>
-                    <td><%= i.email %></td>
-                    <td><%= i.mobile %></td>
-                    <td><%= i.birthday.toLocaleString() %></td>
-                    <td><%= i.address %></td>
-                </tr>
+            <% for( let i of rows){ %>
+            <tr>
+                <td><a href="/address-book/del/<%= i.sid %>"><i class="fas fa-trash-alt"></i></a></td>
+                <td><%= i.sid %></td>
+                <td><%= i.name %></td>
+                <td><%= i.email %></td>
+                <td><%= i.mobile %></td>
+                <td><%= i.birthday %></td>
+                <td><%= i.address %></td>
+                <td><a href="/address-book/edit/<%= i.sid %>"><i class="fas fa-edit"></i></a></td>
+            </tr>
             <% }%>
         </tbody>
     </table>
