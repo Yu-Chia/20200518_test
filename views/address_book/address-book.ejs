@@ -34,7 +34,7 @@
         <tbody>
             <% for( let i of rows){ %>
             <tr>
-                <td><a href="/address-book/del/<%= i.sid %>"><i class="fas fa-trash-alt"></i></a></td>
+                <td><a class="del" href="/address-book/del/<%= i.sid %>"><i class="fas fa-trash-alt"></i></a></td>
                 <td><%= i.sid %></td>
                 <td><%= i.name %></td>
                 <td><%= i.email %></td>
@@ -48,4 +48,13 @@
     </table>
 </div>
 <%- include('../parts/script')%>
+<script>
+    $(".del").on("click", function(e){
+        if(confirm("你確定要刪除?")){
+
+        }else {
+            e.preventDefault();
+        };
+    })
+</script>
 <%- include('../parts/html-foot')%>

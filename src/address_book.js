@@ -32,6 +32,7 @@ router.get('/edit/:sid', (req,res) => {
     db.query(sql, [req.params.sid])
         .then(([r])=>{
             if( r && r.length){
+                r[0].referer = req.get('Referer');
                 r[0].birthday = moment(r[0].birthday).format('YYYY-MM-DD');
                 res.render('address_book/edit', r[0]);
             } else {
