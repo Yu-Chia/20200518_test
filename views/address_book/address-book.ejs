@@ -34,7 +34,7 @@
         <tbody>
             <% for( let i of rows){ %>
             <tr>
-                <td><a class="del" href="/address-book/del/<%= i.sid %>"><i class="fas fa-trash-alt"></i></a></td>
+                <td><a class="del" href="/address-book/del/<%= i.sid %>" onclick="do_del(event,<%= i.sid %>)"><i class="fas fa-trash-alt"></i></a></td>
                 <td><%= i.sid %></td>
                 <td><%= i.name %></td>
                 <td><%= i.email %></td>
@@ -49,12 +49,10 @@
 </div>
 <%- include('../parts/script')%>
 <script>
-    $(".del").on("click", function(e){
-        if(confirm("你確定要刪除?")){
-
-        }else {
+    function do_del(e,sid){
+        if(! confirm(`你確定要刪除編號${sid}的資料?`)){
             e.preventDefault();
-        };
-    })
+        }
+    }
 </script>
 <%- include('../parts/html-foot')%>

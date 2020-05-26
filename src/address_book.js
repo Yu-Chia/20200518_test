@@ -119,7 +119,7 @@ router.get('/list/:page?', async (req,res) => {
     const output = await getDatalist(req);
     res.render('address_book/address-book', output );
 })
-router.get('api/list/:page?', async (req,res) => {
+router.get('/api/list/:page?', async (req,res) => {
     const output = await getDatalist(req);
     res.json( output );
 })
