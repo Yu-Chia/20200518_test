@@ -1,0 +1,56 @@
+<%- include('../parts/html-head')%>
+<%- include('../parts/html-navbar')%>
+<div class="my-4">
+    <div class="container">
+        
+        <div class="alert alert-success" role="alert" style="display: none;" id="info_bar">
+
+        </div>
+        <form method="post" onsubmit="return checkForm()" name="form1">
+            <div class="form-group">
+                <label for="account">Account</label>
+                <input type="text" name="account" class="form-control" id="account" placeholder="Enter Account">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+
+    </div>
+</div>
+<%- include('../parts/script')%>
+<script>
+    function checkForm() {
+        const fd = new FormData(document.form1);
+
+        fetch('/address-book/login', {
+            method: 'POST',
+            body: fd
+        })
+            .then(r => r.json())
+            .then(obj => {
+                console.log(obj);
+                $("#info_bar").hide();
+                if (obj.success) {
+                    $("#info_bar").removeClass('alert-danger').addClass('alert-success').text('登入成功')
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000)
+
+                } else {
+                    $("#info_bar").removeClass('alert-success').addClass('alert-danger').text('帳號或密碼錯誤')
+                    setTimeout(()=>{
+                        $("#info_bar").slideUp();
+                    },1000)
+                }
+                $("#info_bar").show();
+            })
+        return false;
+    }
+</script>
+
+<%- include('../parts/html-foot')%>
