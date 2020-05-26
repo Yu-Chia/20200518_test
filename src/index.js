@@ -39,7 +39,7 @@ const whitelist = ['http://localhost:8080', undefined];
 const corsOptions = {
     credentials: true,
     origin: function(origin, cb){
-        console.log('origin:'+origin);
+        // console.log('origin:'+origin);
         if(whitelist.indexOf(origin) !== -1){
             cb(null, true);
         }else {
