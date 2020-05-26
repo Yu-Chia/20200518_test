@@ -2,6 +2,7 @@ const express = require('express');
 // const multer = require('multer');
 const fs = require('fs');
 const app = express();
+const cors = require('cors');
 // const uploads = multer({dest: 'tmp_uploads/'})
 const session = require('express-session');
 const MysqlStore = require('express-mysql-session')(session);
@@ -34,6 +35,20 @@ app.use((req, res, next)=>{
     // };
     next();
 });
+const whitelist = ['http://localhost:8080', undefined];
+const corsOptions = {
+    credentials: true,
+    origin: function(origin, cb){
+        console.log('origin:'+origin);
+        if(whitelist.indexOf(origin) !== -1){
+            cb(null, true);
+        }else {
+            cb(null, false);
+        }
+    }
+}
+
+app.use(cors(corsOptions));
 
 app.get('/', function (req, res) {
     res.render('main', { name: 'Martin', pageTitle: '首頁' });

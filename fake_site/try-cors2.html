@@ -8,11 +8,13 @@
 <body>
     <div id="info"></div>
     <script>
-        fetch('http://localhost:3000/address-book/api/list/1')
+        fetch('http://localhost:3000/try-session',{
+            credentials:'include'
+        })
         .then(r=>r.json())
         .then(obj=>{
             console.log(obj);
-            info.innerHTML = JSON.stringify(obj);
+            info.innerHTML = JSON.stringify(obj.my_var);
         })
     </script>
 </body>
