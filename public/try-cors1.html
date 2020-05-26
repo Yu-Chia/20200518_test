@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>try-cors1</title>
+</head>
+<body>
+    <div id="info"></div>
+    <script>
+        fetch('http://localhost:3000/address-book/api/list/1')
+        .then(r=>r.json())
+        .then(obj=>{
+            info.innerHTML = JSON.stringify(obj);
+        })
+    </script>
+</body>
+</html>

@@ -23,8 +23,8 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="/address-book" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="/address-book" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     address-book
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -37,9 +37,24 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
             </li>
-            
-            
+
+
         </ul>
-        
+        <ul class="navbar-nav ">
+        <% if(sess.admin){%>
+            <li class="nav-item active">
+                <a class="nav-link"><%= sess.admin.nickname%>，您好 </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/address-book/log-out">Log-out</a>
+            </li>
+        <% }else{ %>
+            <li class="nav-item active">
+                <a class="nav-link" href="/address-book/login">Login</a>
+            </li>
+        <% } %>
+        </ul>
+
+
     </div>
 </nav>

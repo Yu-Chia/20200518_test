@@ -2,8 +2,12 @@ const express = require('express');
 // const multer = require('multer');
 const fs = require('fs');
 const app = express();
+const cors = require('cors');
 // const uploads = multer({dest: 'tmp_uploads/'})
 const session = require('express-session');
+const MysqlStore = require('express-mysql-session')(session);
+const db = require(__dirname+'/db_connect2');
+const sessionStore = new MysqlStore({},db);
 const uploads = require(__dirname + '/upload-module');
 const moment = require('moment-timezone');
 
@@ -17,6 +21,7 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     secret: 'asvzsef3DSLl!AS./',
+    store: sessionStore,
     cookie:{
         maxAge: 1200000
     }
@@ -30,6 +35,20 @@ app.use((req, res, next)=>{
     // };
     next();
 });
+const whitelist = ['http://localhost:8080', undefined];
+const corsOptions = {
+    credentials: true,
+    origin: function(origin, cb){
+        console.log('origin:'+origin);
+        if(whitelist.indexOf(origin) !== -1){
+            cb(null, true);
+        }else {
+            cb(null, false);
+        }
+    }
+}
+
+app.use(cors(corsOptions));
 
 app.get('/', function (req, res) {
     res.render('main', { name: 'Martin', pageTitle: '首頁' });
